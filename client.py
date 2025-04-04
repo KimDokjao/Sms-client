@@ -5,7 +5,7 @@ import logging
 import ssl
 import json
 import base64
-from typing import Dict, Tuple
+from typing import Dict, Tuple, Optional
 
 logging.basicConfig(filename='sms_client.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
@@ -38,16 +38,15 @@ class HTTPResponse:
 
             return cls(status_code, headers, body)
         except Exception as e:
-            logging.error(f"Ошибка при разборе ответа: {e}")
-            return cls(500, {}, f'{{"error": "Ошибка парсинга: {e}"}}'.encode())
+            logging.error(f"Ошибка при парсинге ответа: {e}")
+            return cls(500, {}, b"Error parsing response")
 
 def send_sms(config: Dict[str, Dict[str, str]], sender: str, recipient: str, message: str) -> Tuple[int, str]:
     host: str = config["service"]["host"]
     port: int = config["service"]["port"]
     username: str = config["credentials"]["username"]
     password: str = config["credentials"]["password"]
-    path: str = "/send_sms"  
-
+    path: str = "/send_sms"
     body_dict: Dict[str, str] = {"sender": sender, "recipient": recipient, "message": message}
     body: bytes = json.dumps(body_dict).encode()
 
