@@ -3,8 +3,8 @@
 
 ## Установка
 1.  Клонируйте репозиторий:
-   git clone <your_repository_url>
-   cd <your_repository_directory>
+   - git clone <your_repository_url>
+   - cd <your_repository_directory>
 2. Установите необходимые библиотеки: pip install toml
 
 ## Конфигурация
